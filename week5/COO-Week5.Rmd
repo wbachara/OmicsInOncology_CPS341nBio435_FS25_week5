@@ -155,8 +155,8 @@ renderGraph(example_graph_plot)
 Do you understand why the plot looks the way it looks?
 
 ``` {r}
-baits <- c("A", "A", "A", "A")
-preys <- c("B", "C", "D", "E")
+baits <- c("A", "A", "A", "A","B","B")
+preys <- c("B", "C", "D", "E","F","G")
 
 
 #First we use our function to create the graph
@@ -176,8 +176,8 @@ renderGraph(example_graph_plot)
 Do you understand why the plot looks the way it looks?
 
 ``` {r}
-baits <- c("A", "A", "A", "A")
-preys <- c("B", "C", "D", "E")
+baits <- c("A", "A", "A", "A", "I", "I")
+preys <- c("B", "C", "D", "E", "F","G")
 
 
 #First we use our function to create the graph
@@ -211,14 +211,14 @@ For this you can use the print() or head() function. However also just typing th
 
 ```{r}
 ## lets load our supplementary data
-SuppS6 <- 
-
+SuppS6 <-read_xlsx ("science.abf3066_Table_S6.xlsx", sheet="Differential Interaction Score")
+print(SuppS6)
 ```
 
 ### 2. Check the loaded data
 
 ```{r}
-
+print(SuppS6)
 ```
 
 Now we know what our function does, let's have a look at our experimental data.
@@ -231,19 +231,25 @@ For convenience we will first store the content of these columns in their own va
 ### 1. Store the content of the *Bait column* in a variable **baits** and the *Prey column* in **preys**
 
 ```{r}
-
+df <- read_xlsx ("science.abf3066_Table_S6.xlsx", sheet="Differential Interaction Score")
+baits <- df$Bait
+preys <- df$Prey
+# Print to verify"
+head(baits)
+head(preys)
 ```
 
 ### 2. use the *makeproteingraph(.. , ..)* function and store the output in the variable **interactionGraph** (this is now a *graphNEL-object*)
 
 ```{r}
+interactionGraph <- makeproteingraph(baits,preys)
 
 ```
 
 3. "print" the content of the interactionGraph variable (don't use head or print, just type the variable name)
 
 ```{r}
-
+interactionGraph
 ```
 
 4. Look at our examples above and try to create a plot of our interactionGraph
@@ -252,7 +258,7 @@ We will make use of the neato layout **layoutType="neato"** (there are more layo
 
 
 ```{r}
-
+plot(interactionGraph, layoutType="neato")
 ```
 
 
@@ -263,6 +269,8 @@ We will make use of the neato layout **layoutType="neato"** (there are more layo
 
 ```{r}
 ## use the example code above to layout the graph, and run the renderGraph(..) function (1.)
+graphLayout <-layoutGraph(interactionGraph, layoutType="neato")
+renderGraph(graphLayout)
 ```
 
 **Take a look at the graph below.. It doesn't look the same but trust me it is the same PPI information as in figure 2A. However they have made it much better looking.**
@@ -303,7 +311,7 @@ Of course we like to plot this as well, like we did with the complete dataset.
 *All the steps above are similar to the steps you did for the 'complete' dataset*
 
 ```{r}
-
+ppiGraph
 ```
 
 3. layout the ppiGraph using the layoutGraph(.., layoutType="neato") function
